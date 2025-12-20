@@ -14,21 +14,23 @@ bool Game::initialize()
 	m_texture_cache.load("player", "assets/player.png");
 	m_texture_cache.get("player", m_player.m_sprite.m_sprite_sheet);
 	
-	m_texture_cache.load("bullet", "assets/ball.png"); 
+	m_texture_cache.load("bullet", "assets/bullet.png"); 
 	m_texture_cache.get("bullet", m_bullet.m_sprite.m_sprite_sheet);
 
 	m_texture_cache.load("enemy", "assets/enemy.png");
 	m_texture_cache.get("enemy", m_enemy.m_sprite.m_sprite_sheet);
 
-	
+	//make a specified initialize
+	//create vectors of enemies and bullets
+	//move collision detection out to the game loop
 	
 	m_player.m_sprite.m_source = { 0, 0, 20, 32 };
 	m_player.m_transform.m_size = { 20.0f, 32.0f };
 	m_player.m_transform.m_position = (m_screen_size - m_player.m_transform.m_size) * 0.5f;
 	
 
-	m_bullet.m_sprite.m_source = { 0, 0, 16, 16 };
-	m_bullet.m_transform.m_size = { 16.0f, 16.0f };
+	m_bullet.m_sprite.m_source = { 0, 0, 8, 8 };
+	m_bullet.m_transform.m_size = { 8.0f, 8.0f };
 	m_bullet.m_transform.m_position = (m_screen_size - m_bullet.m_transform.m_size) * 0.5f;
 
 	m_enemy.m_sprite.m_source = { 0, 0, 32, 32 };
@@ -61,7 +63,8 @@ void Game::update(float dt)
 	m_bullet.erase_outside_window(m_screen_size);
 
 	m_enemy.update(dt, m_input, m_player);
-
+	m_enemy.is_hit(m_bullet);
+	m_enemy.reached_player(m_player);
 
 }
 

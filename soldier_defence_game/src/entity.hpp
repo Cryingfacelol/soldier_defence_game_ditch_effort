@@ -40,7 +40,8 @@ struct Enemy
 
 	void update(float dt, const InputAction& input, const Player& player);
 	void draw() const;
-
+	void reached_player(Player& player);
+	void is_hit(const Bullet& bullet);
 	
 
 	TransformComp m_transform;

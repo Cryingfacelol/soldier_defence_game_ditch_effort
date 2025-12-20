@@ -29,7 +29,7 @@ void Bullet::update( float dt, const Player& player, const InputAction& input, V
 	constexpr float PIXELS_PER_SECOND = 200.0f; //speed
 	if (IsMouseButtonPressed(0))
 		{
-			m_transform.m_position = screen_size * 0.5;
+			m_transform.m_position = player.m_transform.m_position;
 			m_direction = input.aim_direction(player.m_transform.m_position);
 			m_active = true;
 		}
@@ -50,6 +50,7 @@ void Bullet::draw() const
 {
 	if (m_active) { m_sprite.draw(m_transform); }
 }
+
 void Enemy::update(float dt, const InputAction& input, const Player& player)
 {
 	constexpr float PIXELS_PER_SECOND = 100.0f; //speed
@@ -61,10 +62,27 @@ void Enemy::update(float dt, const InputAction& input, const Player& player)
 		m_transform.m_position += m_direction * PIXELS_PER_SECOND * dt;
 	}
 	m_transform.get_rec_on_screen();
+	
 
 }
 
 void Enemy::draw() const
 {
-	m_sprite.draw(m_transform);
+	if (m_alive) { m_sprite.draw(m_transform); }
+}
+
+void Enemy::reached_player(Player& player)
+{
+	if (CheckCollisionRecs(m_transform.m_destination, player.m_transform.m_destination)) 
+	{ 
+		m_alive = false;
+	}
+}
+
+void Enemy::is_hit(const Bullet& bullet)
+{
+	if (CheckCollisionRecs(m_transform.m_destination, bullet.m_transform.m_destination)) 
+	{ 
+		m_alive = false; 
+	}
 }
