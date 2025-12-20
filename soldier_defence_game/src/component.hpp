@@ -9,8 +9,11 @@ struct InputAction
 	InputAction() = default;
 
 	void poll_input();
+
 	Vector2 aim_direction(Vector2 player_position) const;
-	void rotate_to_mouse(float& rotation, Vector2 direction) const;
+	Vector2 move_to_player(Vector2 target_pos, Vector2 own_pos) const;
+	
+	void rotate(float& rotation, Vector2 direction) const;
 
 	Vector2 m_shot_end_pos = {};
 	

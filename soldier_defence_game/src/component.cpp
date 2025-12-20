@@ -24,9 +24,20 @@ Vector2 InputAction::aim_direction(Vector2 player_position) const
 	return direction;
 }
 
-void InputAction::rotate_to_mouse(float& rotation, Vector2 direction) const
+void InputAction::rotate(float& rotation, Vector2 direction) const
 {
 	rotation = 90.0f + atan2f(direction.y, direction.x) * RAD2DEG;
+}
+
+Vector2 InputAction::move_to_player(Vector2 target_pos, Vector2 own_pos) const
+{
+	Vector2 direction = {};
+	Vector2 distance = {};
+
+	distance = target_pos - own_pos;
+	direction = Vector2Normalize(distance);
+
+	return direction;
 }
 
 

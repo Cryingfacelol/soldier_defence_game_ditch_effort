@@ -33,3 +33,19 @@ struct Bullet
 	Vector2 m_direction = {};
 	bool m_active = true;
 };
+
+struct Enemy
+{
+	Enemy() = default;
+
+	void update(float dt, const InputAction& input, const Player& player);
+	void draw() const;
+
+	
+
+	TransformComp m_transform;
+	Sprite m_sprite;
+	Vector2 m_direction = {};
+	bool m_alive = true;
+
+};

@@ -33,6 +33,7 @@ private:
 
 	Player m_player;
 	Bullet m_bullet;
+	Enemy m_enemy;
 	
 	
 };

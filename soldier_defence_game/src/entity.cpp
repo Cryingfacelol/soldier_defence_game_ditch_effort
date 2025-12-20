@@ -4,7 +4,7 @@ void Player::update(float dt, const InputAction& input)
 { 
 	
 	m_direction = input.aim_direction(m_transform.m_position);
-	input.rotate_to_mouse(m_transform.m_rotation, m_direction);
+	input.rotate(m_transform.m_rotation, m_direction);
 	m_transform.get_rec_on_screen();
 
 }
@@ -26,7 +26,7 @@ void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center 
 void Bullet::update( float dt, const Player& player, const InputAction& input, Vector2 screen_size)
 {
 
-	constexpr float PIXELS_PER_SECOND = 200.0f;
+	constexpr float PIXELS_PER_SECOND = 200.0f; //speed
 	if (IsMouseButtonPressed(0))
 		{
 			m_transform.m_position = screen_size * 0.5;
@@ -49,4 +49,22 @@ void Bullet::update( float dt, const Player& player, const InputAction& input, V
 void Bullet::draw() const
 {
 	if (m_active) { m_sprite.draw(m_transform); }
+}
+void Enemy::update(float dt, const InputAction& input, const Player& player)
+{
+	constexpr float PIXELS_PER_SECOND = 100.0f; //speed
+	
+	
+	if (m_alive){
+		m_direction = input.move_to_player(player.m_transform.m_position, m_transform.m_position);
+		input.rotate(m_transform.m_rotation, m_direction);
+		m_transform.m_position += m_direction * PIXELS_PER_SECOND * dt;
+	}
+	m_transform.get_rec_on_screen();
+
+}
+
+void Enemy::draw() const
+{
+	m_sprite.draw(m_transform);
 }
