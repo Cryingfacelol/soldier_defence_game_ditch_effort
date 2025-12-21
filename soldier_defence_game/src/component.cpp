@@ -1,7 +1,6 @@
 //component.cpp
 
 #include "component.hpp"
-#include "game.hpp"
 
 
 
@@ -52,3 +51,4 @@ void TransformComp::get_rec_on_screen()
 	m_center = (m_size * 0.5f);
 	m_destination = { m_position.x, m_position.y, m_size.x, m_size.y };
 }
+

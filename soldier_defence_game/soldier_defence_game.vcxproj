@@ -159,6 +159,7 @@
     <ClCompile Include="src\entity.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\waves.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\assets.hpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\component.hpp" />
     <ClInclude Include="src\entity.hpp" />
     <ClInclude Include="src\game.hpp" />
+    <ClInclude Include="src\waves.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

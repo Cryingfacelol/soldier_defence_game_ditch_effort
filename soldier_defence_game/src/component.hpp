@@ -4,6 +4,9 @@
 
 #include "common.hpp"
 
+
+
+
 struct InputAction
 {
 	InputAction() = default;

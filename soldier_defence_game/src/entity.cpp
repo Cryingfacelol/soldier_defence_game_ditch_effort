@@ -1,6 +1,6 @@
 #include "entity.hpp"
 
-void Player::update(float dt, const InputAction& input)
+void Player::update(float dt, InputAction& input)
 { 
 	
 	m_direction = input.aim_direction(m_transform.m_position);
@@ -23,7 +23,7 @@ void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center 
 		m_active = false;
 	}
 }
-void Bullet::update( float dt, const Player& player, const InputAction& input, Vector2 screen_size)
+void Bullet::update( float dt, Player& player, InputAction& input, Vector2 screen_size)
 {
 
 	constexpr float PIXELS_PER_SECOND = 200.0f; //speed
@@ -51,7 +51,7 @@ void Bullet::draw() const
 	if (m_active) { m_sprite.draw(m_transform); }
 }
 
-void Enemy::update(float dt, const InputAction& input, const Player& player)
+void Enemy::update(float dt, InputAction& input, Player& player)
 {
 	constexpr float PIXELS_PER_SECOND = 100.0f; //speed
 	
@@ -79,10 +79,17 @@ void Enemy::reached_player(Player& player)
 	}
 }
 
-void Enemy::is_hit(const Bullet& bullet)
+void Enemy::is_hit(Bullet& bullet)
 {
 	if (CheckCollisionRecs(m_transform.m_destination, bullet.m_transform.m_destination)) 
 	{ 
 		m_alive = false; 
 	}
+}
+
+Enemy::Enemy( Rectangle source, Vector2 size, Vector2 position)
+{
+	m_sprite.m_source = source;
+	m_transform.m_size = size;
+	m_transform.m_position = position;
 }

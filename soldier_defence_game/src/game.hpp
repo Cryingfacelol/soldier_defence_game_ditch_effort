@@ -6,6 +6,7 @@
 #include "entity.hpp"
 #include "component.hpp"
 #include "assets.hpp"
+#include "waves.hpp"
 
 class Game 
 {
@@ -33,7 +34,8 @@ private:
 
 	Player m_player;
 	Bullet m_bullet;
-	Enemy m_enemy;
+	EnemyWave m_wave_one;
+	
 	
 	
 };
