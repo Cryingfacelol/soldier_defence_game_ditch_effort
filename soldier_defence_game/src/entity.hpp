@@ -21,16 +21,16 @@ struct Player
 
 struct Bullet
 {
-	Bullet() = default;
+	Bullet(Vector2 direction, Vector2 player_position, float rotation, Vector2 size, Rectangle source);
 
 	void erase_outside_window(Vector2 screen_size); //only moves it back to center for now, not sure how to erase will have to check
-	void update(float dt, Player& player, InputAction& input, Vector2 screen_size);
+	void update(float dt, Vector2 screen_size);
 	void draw() const;
 
 	TransformComp m_transform;
 	Sprite m_sprite;
 	Vector2 m_direction = {};
-	bool m_active = false;
+	bool m_active = true;
 };
 
 struct Enemy

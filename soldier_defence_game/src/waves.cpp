@@ -69,3 +69,38 @@ void EnemyWave::enemy_spawn(TextureCache& texture_cache, int number_of_enemies, 
 	}
 
 }
+
+void ScoreBoard::add_score(int score_increase)
+{
+	m_score += score_increase;
+
+}
+
+void ScoreBoard::draw() const
+{
+	DrawText(TextFormat("Score: %i", m_score), 20, 20, 40, RAYWHITE);
+
+}
+
+void CreateBullets::bullet_spawn(TextureCache& texture_cache, Vector2 direction, Vector2 player_position, Vector2 player_size)
+{
+	Rectangle source = { 0, 0, 8, 8 };
+	Vector2 size = { 8.0f, 8.0f };
+	Vector2 spawn_position = player_position + (player_size*0.5) - (size * 0.5);
+	int total_bullets = (int)m_bullets.size() + number_of_bullets_added;
+	float rotation = 90.0f;
+
+	texture_cache.load("bullet", "assets/bullet.png");
+
+	if (m_bullets.size() <= m_max_number_of_bullets) 
+	{
+		for (int i = (int)m_bullets.size(); i < total_bullets; i++) 
+		{
+			m_bullets.push_back({ direction, spawn_position, rotation, size, source });
+
+			texture_cache.get("bullet", m_bullets[i].m_sprite.m_sprite_sheet);
+		}
+
+	}
+
+}

@@ -13,6 +13,14 @@ void Player::draw() const
 {
 	m_sprite.draw(m_transform);
 }
+Bullet::Bullet(Vector2 direction, Vector2 player_position, float rotation, Vector2 size, Rectangle source)
+{
+	m_direction = direction;
+	m_transform.m_position = player_position;
+	m_transform.m_rotation = rotation;
+	m_transform.m_size = size;
+	m_sprite.m_source = source;
+}
 void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center for now
 	if (m_transform.m_position.x > screen_size.x ||
 		m_transform.m_position.y > screen_size.y ||
@@ -23,16 +31,11 @@ void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center 
 		m_active = false;
 	}
 }
-void Bullet::update( float dt, Player& player, InputAction& input, Vector2 screen_size)
+void Bullet::update( float dt, Vector2 screen_size)
 {
 
 	constexpr float PIXELS_PER_SECOND = 200.0f; //speed
-	if (IsMouseButtonPressed(0))
-		{
-			m_transform.m_position = player.m_transform.m_position;
-			m_direction = input.aim_direction(player.m_transform.m_position);
-			m_active = true;
-		}
+	
 	if (m_active) 
 	{
 		m_transform.m_position += m_direction * PIXELS_PER_SECOND * dt;
@@ -53,7 +56,7 @@ void Bullet::draw() const
 
 void Enemy::update(float dt, InputAction& input, Player& player)
 {
-	constexpr float PIXELS_PER_SECOND = 100.0f; //speed
+	constexpr float PIXELS_PER_SECOND = 50.0f; //speed
 	
 	
 	if (m_alive){
@@ -76,6 +79,7 @@ void Enemy::reached_player(Player& player)
 	if (CheckCollisionRecs(m_transform.m_destination, player.m_transform.m_destination)) 
 	{ 
 		m_alive = false;
+		//gamestate = end;
 	}
 }
 

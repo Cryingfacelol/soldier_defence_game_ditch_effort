@@ -25,17 +25,19 @@ private:
 
 	bool m_running = true;
 	Vector2 m_screen_size = {};
+	//std::vector<Bullet> m_bullets;
 
 	TextureCache m_texture_cache;
 
 	SoundCache m_sound_cache;
+	ScoreBoard m_scoreboard;
 
 	InputAction m_input = {};
 
 	Player m_player;
-	Bullet m_bullet;
+
 	EnemyWave m_wave_one;
-	
+	CreateBullets m_bullet_creator;
 	
 	
 };
