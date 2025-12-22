@@ -24,8 +24,10 @@ public:
 private:
 
 	bool m_running = true;
-	Vector2 m_screen_size = {};
-	//std::vector<Bullet> m_bullets;
+	Vector2 m_window_size = {};
+	int m_nr_enemies;
+	Color m_text_colour;
+	Color m_background_color;
 
 	TextureCache m_texture_cache;
 
@@ -34,10 +36,11 @@ private:
 
 	InputAction m_input = {};
 
-	Player m_player;
+	Player m_player = {5};
 
-	EnemyWave m_wave_one;
+	EnemyWave m_enemy_wave = { 5 };
 	CreateBullets m_bullet_creator;
+	GamestateManager m_gamestate_manager;
 	
 	
 };

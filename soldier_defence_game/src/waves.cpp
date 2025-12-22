@@ -3,6 +3,11 @@
 #include "waves.hpp"
 
 
+EnemyWave::EnemyWave(int final_wave_number)
+{
+	m_max_number_of_waves = final_wave_number;
+}
+
 void EnemyWave::enemy_spawn(TextureCache& texture_cache, int number_of_enemies, Vector2 screen_size)
 {
 	Rectangle source = { 0, 0, 32, 32 };
@@ -67,6 +72,7 @@ void EnemyWave::enemy_spawn(TextureCache& texture_cache, int number_of_enemies, 
 
 		texture_cache.get("enemy", m_enemies[i].m_sprite.m_sprite_sheet);
 	}
+	m_wave_number++;
 
 }
 
@@ -76,9 +82,9 @@ void ScoreBoard::add_score(int score_increase)
 
 }
 
-void ScoreBoard::draw() const
+void ScoreBoard::draw(Vector2 window_size) const
 {
-	DrawText(TextFormat("Score: %i", m_score), 20, 20, 40, RAYWHITE);
+	DrawText(TextFormat("Score: %i", m_score), int(window_size.x*0.5)-20, 20, 40, RAYWHITE);
 
 }
 
@@ -102,5 +108,14 @@ void CreateBullets::bullet_spawn(TextureCache& texture_cache, Vector2 direction,
 		}
 
 	}
+
+}
+
+void GamestateManager::change_gamestate( gamestate new_state)
+{
+	if (m_gamestate == start && new_state == playing){m_gamestate = new_state;}
+	if (m_gamestate == playing && new_state != start) { m_gamestate = new_state; }
+	if (m_gamestate == lose || m_gamestate == win) { if (new_state == start) { m_gamestate = new_state; } }
+
 
 }

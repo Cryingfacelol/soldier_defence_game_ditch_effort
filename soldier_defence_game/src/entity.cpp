@@ -1,5 +1,10 @@
 #include "entity.hpp"
 
+Player::Player(int health)
+{
+	m_health = health;
+}
+
 void Player::update(float dt, InputAction& input)
 { 
 	
@@ -79,7 +84,7 @@ void Enemy::reached_player(Player& player)
 	if (CheckCollisionRecs(m_transform.m_destination, player.m_transform.m_destination)) 
 	{ 
 		m_alive = false;
-		//gamestate = end;
+		player.m_health--;
 	}
 }
 

@@ -8,13 +8,14 @@
 
 struct Player 
 {
-	Player() = default;
+	Player(int health);
 
 	void update(float dt, InputAction& input);
 	void draw() const;
 
 	TransformComp m_transform;
 	Sprite m_sprite;
+	int m_health = 1;
 
 	Vector2 m_direction = {};
 };
