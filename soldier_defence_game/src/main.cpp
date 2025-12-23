@@ -6,7 +6,9 @@
 int main(int argc, char** argv) 
 {
 	InitWindow(800, 800, "Ditch Effort");
-	
+	InitAudioDevice();
+
+
 	Game game;
 
 	if (game.initialize()) {
@@ -22,6 +24,7 @@ int main(int argc, char** argv)
 	}
 
 	game.shutdown();
+	CloseAudioDevice();
 	CloseWindow();
 	return 0;
 }

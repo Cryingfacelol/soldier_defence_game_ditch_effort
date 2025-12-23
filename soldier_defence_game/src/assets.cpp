@@ -44,6 +44,15 @@ bool TextureCache::get(std::string_view id, Texture& texture)
 	return true;
 }
 
+void SoundCache::unload_all()
+{
+    for (auto& it : m_sounds)
+    {
+        UnloadSound(it.second);
+    }
+    m_sounds.clear();
+}
+
 bool SoundCache::load(std::string_view id, std::string_view path)
 {
     const size_t id_hash = std::hash<std::string_view>{}(id);
