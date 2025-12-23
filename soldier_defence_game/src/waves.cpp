@@ -8,18 +8,20 @@ EnemyWave::EnemyWave(int final_wave_number)
 	m_max_number_of_waves = final_wave_number;
 }
 
-void EnemyWave::enemy_spawn(TextureCache& texture_cache, int number_of_enemies, Vector2 screen_size)
+void EnemyWave::enemy_spawn(TextureCache& texture_cache, int added_enemies_per_wave, Vector2 screen_size)
 {
 	Rectangle source = { 0, 0, 32, 32 };
 	Vector2 size = { 32.0f, 32.0f };
 	Vector2 spawn_position = {};
+	int type = 1;
 	int x_or_y = 1;
 	int up_or_down = 1;
 	int left_or_right = 1;
+	m_number_of_enemies += added_enemies_per_wave; 
 	texture_cache.load("enemy", "assets/enemy.png");
 
-	for (int i = 0; i < number_of_enemies; i++) {
-
+	for (int i = 0; i < m_number_of_enemies; i++) {
+		type = GetRandomValue(1, 10);
 		x_or_y = GetRandomValue(1, 2);
 		up_or_down = GetRandomValue(1, 2);
 		left_or_right = GetRandomValue(1, 2);
@@ -71,9 +73,17 @@ void EnemyWave::enemy_spawn(TextureCache& texture_cache, int number_of_enemies, 
 			});
 
 		texture_cache.get("enemy", m_enemies[i].m_sprite.m_sprite_sheet);
+		m_enemies[i].set_enemy_type();
 	}
 	m_wave_number++;
 
+}
+
+void EnemyWave::reset()
+{
+	m_wave_number = 1;
+	m_enemies.clear();
+	m_number_of_enemies = 0;
 }
 
 void ScoreBoard::add_score(int score_increase)
@@ -84,7 +94,12 @@ void ScoreBoard::add_score(int score_increase)
 
 void ScoreBoard::draw(Vector2 window_size) const
 {
-	DrawText(TextFormat("Score: %i", m_score), int(window_size.x*0.5)-20, 20, 40, RAYWHITE);
+	DrawText(TextFormat("Score: %i", m_score), 20, 20, 40, RAYWHITE);
+
+}
+void ScoreBoard::reset()
+{
+	m_score = 0;
 
 }
 
@@ -110,12 +125,17 @@ void CreateBullets::bullet_spawn(TextureCache& texture_cache, Vector2 direction,
 	}
 
 }
+void CreateBullets::reset()
+{
+	m_bullets.clear();
+}
+
 
 void GamestateManager::change_gamestate( gamestate new_state)
 {
 	if (m_gamestate == start && new_state == playing){m_gamestate = new_state;}
 	if (m_gamestate == playing && new_state != start) { m_gamestate = new_state; }
-	if (m_gamestate == lose || m_gamestate == win) { if (new_state == start) { m_gamestate = new_state; } }
+	if (m_gamestate == lose || m_gamestate == win) { if (new_state == playing) { m_gamestate = new_state; } }
 
 
 }

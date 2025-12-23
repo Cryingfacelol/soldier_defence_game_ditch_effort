@@ -18,6 +18,10 @@ void Player::draw() const
 {
 	m_sprite.draw(m_transform);
 }
+void Player::reset(int initial_health)
+{
+	m_health = initial_health;
+}
 Bullet::Bullet(Vector2 direction, Vector2 player_position, float rotation, Vector2 size, Rectangle source)
 {
 	m_direction = direction;
@@ -59,16 +63,36 @@ void Bullet::draw() const
 	if (m_active) { m_sprite.draw(m_transform); }
 }
 
+void Enemy::set_enemy_type()
+{
+	m_type = GetRandomValue(1, 10);
+	if (m_type < 8) { m_enemy_walk_type = straight; }
+	if (m_type >= 8) { m_enemy_walk_type = around; }
+}
+
 void Enemy::update(float dt, InputAction& input, Player& player)
 {
 	constexpr float PIXELS_PER_SECOND = 50.0f; //speed
+	float m_speed_in = 1.0f ;
+	float m_speed_around = 0.99f ;
 	
-	
+
 	if (m_alive){
+		
 		m_direction = input.move_to_player(player.m_transform.m_position, m_transform.m_position);
 		input.rotate(m_transform.m_rotation, m_direction);
-		m_transform.m_position += m_direction * PIXELS_PER_SECOND * dt;
+		if(m_enemy_walk_type == straight){m_transform.m_position += m_direction * PIXELS_PER_SECOND * dt;}
+		if (m_enemy_walk_type == around) 
+		{ 
+			m_perpendicular_direction = { -m_direction.y, m_direction.x };
+			m_final_direction = Vector2Normalize((m_direction * m_speed_in) + (m_perpendicular_direction * m_speed_around));
+
+			m_transform.m_position += m_final_direction * 2 *PIXELS_PER_SECOND * dt;
+		}
+
+
 	}
+
 	m_transform.get_rec_on_screen();
 	
 
@@ -96,9 +120,10 @@ void Enemy::is_hit(Bullet& bullet)
 	}
 }
 
-Enemy::Enemy( Rectangle source, Vector2 size, Vector2 position)
+Enemy::Enemy(Rectangle source, Vector2 size, Vector2 position)
 {
 	m_sprite.m_source = source;
 	m_transform.m_size = size;
 	m_transform.m_position = position;
+	
 }

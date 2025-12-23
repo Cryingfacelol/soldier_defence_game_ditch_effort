@@ -12,6 +12,7 @@ struct Player
 
 	void update(float dt, InputAction& input);
 	void draw() const;
+	void reset(int initial_health);
 
 	TransformComp m_transform;
 	Sprite m_sprite;
@@ -37,16 +38,29 @@ struct Bullet
 struct Enemy
 {
 	Enemy(Rectangle source, Vector2 size, Vector2 position);
+	
+	enum enemy_walk_type{straight, around};
+	
+
+	void set_enemy_type();
 
 	void update(float dt, InputAction& input, Player& player);
 	void draw() const;
 	void reached_player(Player& player);
 	void is_hit(Bullet& bullet);
+
 	
+	enemy_walk_type m_enemy_walk_type = { straight };
+	int m_type = 0;
 
 	TransformComp m_transform;
 	Sprite m_sprite;
-	Vector2 m_direction = {};
+	
 	bool m_alive = true;
+
+	Vector2 m_direction = {};
+	Vector2 m_perpendicular_direction = {};
+	Vector2 m_final_direction = {};
+	
 
 };

@@ -25,9 +25,13 @@ private:
 
 	bool m_running = true;
 	Vector2 m_window_size = {};
-	int m_nr_enemies;
-	Color m_text_colour;
-	Color m_background_color;
+	int m_enemy_increase_per_wave = 0;
+	int m_player_health = 5;
+	int m_number_of_waves = 5;
+	Color m_text_colour = {};
+	Color m_background_color = {};
+	int m_text_borders = 20;
+
 
 	TextureCache m_texture_cache;
 
@@ -36,9 +40,9 @@ private:
 
 	InputAction m_input = {};
 
-	Player m_player = {5};
+	Player m_player = {m_player_health};
 
-	EnemyWave m_enemy_wave = { 5 };
+	EnemyWave m_enemy_wave = { m_number_of_waves};
 	CreateBullets m_bullet_creator;
 	GamestateManager m_gamestate_manager;
 	
