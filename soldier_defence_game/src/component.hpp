@@ -45,3 +45,17 @@ struct Sprite
 	Color m_tint = WHITE;
 
 };
+struct TextRenderer
+{
+	TextRenderer(Vector2 window_size) ;
+
+	void start_screen_text();
+	void playing_text(int player_health, bool first_bullet_shot);
+	void lose_screen_text();
+	void win_screen_text();
+
+	Vector2 m_window_size;
+	int m_text_borders = 0;
+	Color m_text_colour = {};
+
+};

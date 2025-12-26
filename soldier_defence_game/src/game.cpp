@@ -7,9 +7,9 @@
 bool Game::initialize() 
 {
 	m_window_size = Vector2{ (float)GetScreenWidth(), (float)GetScreenHeight() };
-	m_text_colour = RAYWHITE;
 	m_background_color = DARKGREEN;
-	 
+	m_text_renderer.m_window_size = m_window_size;
+
 	m_texture_cache.load("player", "assets/player.png");
 	m_texture_cache.get("player", m_player.m_sprite.m_sprite_sheet);
 
@@ -33,12 +33,9 @@ bool Game::initialize()
 
 
 
-	//add sound
-	// bullet spawn,  enemy dead, win, lose, (background music?)
-	// add colour change to player when hit
+	
 	// OPTIONAL:
-	// make a place to put all the screen rendering?
-
+	// (background music?)
 
 
 
@@ -191,10 +188,7 @@ void Game::draw()
 	ClearBackground(m_background_color);
 	if (m_gamestate_manager.m_gamestate == m_gamestate_manager.gamestate::start) 
 	{
-		DrawText("Ditch Effort", m_text_borders, int(m_window_size.y * 0.5)- (2*m_text_borders), 50, m_text_colour);
-		DrawText("Press S to begin your last stand", m_text_borders, int(m_window_size.y * 0.5)+ m_text_borders, 20, m_text_colour);
-		DrawText("Press Q to QUIT", m_text_borders, int(m_window_size.y * 0.5)+(2 * m_text_borders), 20, m_text_colour);
-
+		m_text_renderer.start_screen_text();
 	}
 	if (m_gamestate_manager.m_gamestate == m_gamestate_manager.gamestate::playing) 
 	{
@@ -203,20 +197,15 @@ void Game::draw()
 	
 		std::for_each(m_enemy_wave.m_enemies.begin(), m_enemy_wave.m_enemies.end(), [](auto& e) {e.draw(); });
 
-		DrawText(TextFormat("Health: %i", m_player.m_health), m_text_borders, 3*m_text_borders, 40, m_text_colour);
-		if(m_scoreboard.m_score == 0 ) { DrawText("LEFT CLICK TO SHOOT", int(m_window_size.x * 0.5)- (2*m_text_borders), int(m_window_size.y )- (2*m_text_borders), 30, m_text_colour); }
+		m_text_renderer.playing_text(m_player.m_health, m_bullet_creator.m_first_bullet_shot);
 	}
 	if (m_gamestate_manager.m_gamestate == m_gamestate_manager.gamestate::win) 
 	{
-		DrawText("You have been rescued by comrades, congratulations!", m_text_borders, int(m_window_size.y * 0.5), 20, m_text_colour);
-		DrawText("Press R to restart", m_text_borders, int(m_window_size.y * 0.5) + m_text_borders, 20, m_text_colour);
-		DrawText("Press Q to QUIT", m_text_borders, int(m_window_size.y * 0.5) + (2 * m_text_borders), 20, m_text_colour);
+		m_text_renderer.win_screen_text();
 	}
 	if (m_gamestate_manager.m_gamestate == m_gamestate_manager.gamestate::lose) 
 	{
-		DrawText("You have died. At least you took as many as possible down with you...", m_text_borders, int(m_window_size.y * 0.5), 20, m_text_colour);
-		DrawText("Press R to restart", m_text_borders, int(m_window_size.y * 0.5) + m_text_borders, 20, m_text_colour);
-		DrawText("Press Q to QUIT", m_text_borders, int(m_window_size.y * 0.5)+(2*m_text_borders), 20, m_text_colour);
+		m_text_renderer.lose_screen_text();
 	}
 
 	

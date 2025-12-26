@@ -49,6 +49,7 @@ struct CreateBullets
 	int number_of_bullets_added = 0;
 	int m_total_bullets = 0;
 	float m_rotation = 0.0f;
+	bool m_first_bullet_shot = false;
 	
 
 	Rectangle m_source = { };

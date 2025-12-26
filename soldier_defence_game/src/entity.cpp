@@ -74,7 +74,7 @@ Bullet::Bullet(Vector2 direction, Vector2 player_position, float rotation, Vecto
 	m_transform.m_size = size;
 	m_sprite.m_source = source;
 }
-void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center for now
+void Bullet::erase_outside_window(Vector2 screen_size) { //just reset to center for now, the game loop erases it.
 	if (m_transform.m_position.x > screen_size.x ||
 		m_transform.m_position.y > screen_size.y ||
 		m_transform.m_position.x < 0 ||

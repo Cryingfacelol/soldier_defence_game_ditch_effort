@@ -29,10 +29,8 @@ private:
 	int m_player_health = 5;
 	int m_number_of_waves = 5;
 
-	Color m_text_colour = {};
 	Color m_background_color = {};
-
-	int m_text_borders = 20;
+	
 
 	float m_time_since_last_bullet = 0;
 
@@ -48,5 +46,6 @@ private:
 
 	GamestateManager m_gamestate_manager;
 	ScoreBoard m_scoreboard;
+	TextRenderer m_text_renderer = {m_window_size};
 	
 };

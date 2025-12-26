@@ -168,11 +168,12 @@ void CreateBullets::bullet_spawn(TextureCache& texture_cache, SoundCache& sound_
 	m_total_bullets = (int)m_bullets.size() + number_of_bullets_added;
 	m_rotation = 90.0f;
 
-
 	
 
 	if (time_since_last_bullet >= 0.25) 
 	{
+		m_first_bullet_shot = true;
+
 		texture_cache.load("bullet", "assets/bullet.png");
 
 		if (random_bullet_sound(sound_cache))
