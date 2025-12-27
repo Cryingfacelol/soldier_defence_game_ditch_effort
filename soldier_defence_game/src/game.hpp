@@ -28,6 +28,7 @@ private:
 
 	int m_player_health = 5;
 	int m_number_of_waves = 5;
+	int m_value_of_one_enemy = 1;
 
 	Color m_background_color = {};
 	
@@ -37,6 +38,7 @@ private:
 
 	TextureCache m_texture_cache;
 	SoundCache m_sound_cache;
+	AssetsLoader m_assets_loader;
 
 	InputAction m_input = {};
 
@@ -47,5 +49,7 @@ private:
 	GamestateManager m_gamestate_manager;
 	ScoreBoard m_scoreboard;
 	TextRenderer m_text_renderer = {m_window_size};
+
+	
 	
 };

@@ -10,39 +10,19 @@ bool Game::initialize()
 	m_background_color = DARKGREEN;
 	m_text_renderer.m_window_size = m_window_size;
 
-	m_texture_cache.load("player", "assets/player.png");
-	m_texture_cache.get("player", m_player.m_sprite.m_sprite_sheet);
-
-	m_sound_cache.load("player_hit", "assets/player_hit_001.ogg");
-	m_sound_cache.load("player_dead", "assets/player_dead.ogg"); 
-
-	m_sound_cache.load("bullet_leaves_gun_001", "assets/bullet_leaves_gun_001.ogg");
-	m_sound_cache.load("bullet_leaves_gun_002", "assets/bullet_leaves_gun_002.ogg");
-	m_sound_cache.load("bullet_leaves_gun_003", "assets/bullet_leaves_gun_003.ogg");
-
-	m_sound_cache.load("gun_empty_001", "assets/gun_empty_001.ogg");
-	m_sound_cache.load("gun_empty_002", "assets/gun_empty_002.ogg");
-	m_sound_cache.load("gun_empty_003", "assets/gun_empty_003.ogg");
-
-	m_sound_cache.load("enemy_hit_001", "assets/enemy_hit.ogg");
-	m_sound_cache.load("enemy_hit_002", "assets/enemy_hit_002.ogg");
-	m_sound_cache.load("enemy_hit_003", "assets/enemy_hit_003.ogg");
-	m_sound_cache.load("enemy_hit_004", "assets/enemy_hit_004.ogg");
-	m_sound_cache.load("enemy_hit_005", "assets/enemy_hit_005.ogg");
-
-
-
-
 	
-	// OPTIONAL:
-	// (background music?)
+	m_assets_loader.load_textures(m_texture_cache);
+	m_assets_loader.load_sounds(m_sound_cache);
 
-
+	PlayMusicStream(m_assets_loader.m_background_music);
+	PauseMusicStream(m_assets_loader.m_background_music);
+	
+	
+	m_texture_cache.get("player", m_player.m_sprite.m_sprite_sheet);
 
 	m_player.m_sprite.m_source = { 0, 0, 20, 32 };
 	m_player.m_transform.m_size = { 20.0f, 32.0f };
 	m_player.m_transform.m_position = (m_window_size * 0.5) - (m_player.m_transform.m_size * 0.5f);
-	
 	
 	m_enemy_wave.enemy_spawn(m_texture_cache, m_window_size);
 
@@ -55,6 +35,7 @@ void Game::shutdown()
 	
 	m_texture_cache.unload_all();
 	m_sound_cache.unload_all();
+	UnloadMusicStream(m_assets_loader.m_background_music);
 }
 
 bool Game::is_running() const
@@ -70,9 +51,14 @@ void Game::poll_input()
 
 void Game::update(float dt)
 {
+	UpdateMusicStream(m_assets_loader.m_background_music);
+
 	if (m_gamestate_manager.m_gamestate == m_gamestate_manager.gamestate::start)
 	{
-		if (IsKeyPressed(KEY_S)) { m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::playing); }
+		if (IsKeyPressed(KEY_S)) { 
+			m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::playing); 
+		ResumeMusicStream(m_assets_loader.m_background_music);
+		}
 		if (IsKeyPressed(KEY_Q)) { m_running = false; }
 	}
 
@@ -107,7 +93,7 @@ void Game::update(float dt)
 									e.is_hit(b);
 								}
 							});
-						if (!e.m_alive) { m_scoreboard.add_score(1); e.play_death_sound(m_sound_cache); }
+						if (!e.m_alive) { m_scoreboard.add_score(m_value_of_one_enemy); e.play_death_sound(m_sound_cache); }
 					});
 			}
 
@@ -132,6 +118,7 @@ void Game::update(float dt)
 			m_bullet_creator.reset();
 			m_player.reset(m_player_health);
 
+			PauseMusicStream(m_assets_loader.m_background_music);
 
 			m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::lose); 
 		}
@@ -143,6 +130,7 @@ void Game::update(float dt)
 			m_bullet_creator.reset();
 			m_player.reset(m_player_health);
 
+			PauseMusicStream(m_assets_loader.m_background_music);
 
 			m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::win); 
 		}
@@ -161,6 +149,7 @@ void Game::update(float dt)
 		{ 
 			m_scoreboard.reset();
 			m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::playing); 
+			ResumeMusicStream(m_assets_loader.m_background_music);
 		}
 		if (IsKeyPressed(KEY_Q)) { m_running = false; }
 	}
@@ -172,6 +161,7 @@ void Game::update(float dt)
 		{ 
 			m_scoreboard.reset();
 			m_gamestate_manager.change_gamestate(m_gamestate_manager.gamestate::playing); 
+			ResumeMusicStream(m_assets_loader.m_background_music);
 		}
 		if (IsKeyPressed(KEY_Q)) { m_running = false; }
 	}

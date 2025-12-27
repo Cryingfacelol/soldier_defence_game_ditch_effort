@@ -28,3 +28,12 @@ public:
 private:
 	std::unordered_map<size_t, Sound> m_sounds;
 };
+
+struct AssetsLoader
+{
+	AssetsLoader() = default;
+
+	void load_textures(TextureCache& texture_cache);
+	void load_sounds(SoundCache& sound_cache);
+	Music m_background_music = {};
+};

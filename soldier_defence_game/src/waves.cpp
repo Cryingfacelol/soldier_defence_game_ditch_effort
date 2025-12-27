@@ -75,10 +75,6 @@ void EnemyWave::enemy_spawn(TextureCache& texture_cache, Vector2 screen_size)
 
 	m_number_of_enemies += m_added_enemies_per_wave;
 
-	texture_cache.load("enemy", "assets/enemy.png");
-
-	
-
 	for (int i = 0; i < m_number_of_enemies; i++) {
 		m_type = GetRandomValue(1, m_wave_number * 2);
 		
@@ -116,7 +112,7 @@ void ScoreBoard::add_score(int score_increase)
 
 void ScoreBoard::draw(Vector2 window_size) const
 {
-	DrawText(TextFormat("Score: %i", m_score), 20, 20, 40, RAYWHITE);
+	DrawText(TextFormat("Score: %i", m_score), m_text_borders, m_text_borders, m_text_size*2, RAYWHITE);
 
 }
 void ScoreBoard::reset()
@@ -174,7 +170,7 @@ void CreateBullets::bullet_spawn(TextureCache& texture_cache, SoundCache& sound_
 	{
 		m_first_bullet_shot = true;
 
-		texture_cache.load("bullet", "assets/bullet.png");
+		
 
 		if (random_bullet_sound(sound_cache))
 		{
@@ -209,7 +205,9 @@ void CreateBullets::reset()
 void GamestateManager::change_gamestate( gamestate new_state)
 {
 	if (m_gamestate == start && new_state == playing){m_gamestate = new_state;}
+
 	if (m_gamestate == playing && new_state != start) { m_gamestate = new_state; }
+
 	if (m_gamestate == lose || m_gamestate == win) { if (new_state == playing) { m_gamestate = new_state; } }
 
 

@@ -57,5 +57,7 @@ struct TextRenderer
 	Vector2 m_window_size;
 	int m_text_borders = 0;
 	Color m_text_colour = {};
-
+	int m_text_size = 20;
+	int m_text_size_title = 50;
+	int m_text_size_slightly_bigger = 30;
 };

@@ -71,7 +71,11 @@ struct ScoreBoard
 	void add_score(int score_increase);
 	void draw(Vector2 window_size) const;
 	void reset();
+
+
 	int m_score = 0;
+	int m_text_borders = 20;
+	int m_text_size = 20;
 };
 
 struct GamestateManager

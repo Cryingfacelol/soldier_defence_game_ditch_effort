@@ -85,3 +85,33 @@ bool SoundCache::get(std::string_view id, Sound& sound)
 
     return true;
 }
+
+void AssetsLoader::load_textures(TextureCache& texture_cache)
+{
+    texture_cache.load("player", "assets/player.png");
+    texture_cache.load("bullet", "assets/bullet.png");
+    texture_cache.load("enemy", "assets/enemy.png");
+
+}
+
+void AssetsLoader::load_sounds(SoundCache& sound_cache)
+{
+    sound_cache.load("player_hit", "assets/player_hit_001.ogg");
+    sound_cache.load("player_dead", "assets/player_dead.ogg");
+
+    sound_cache.load("bullet_leaves_gun_001", "assets/bullet_leaves_gun_001.ogg");
+    sound_cache.load("bullet_leaves_gun_002", "assets/bullet_leaves_gun_002.ogg");
+    sound_cache.load("bullet_leaves_gun_003", "assets/bullet_leaves_gun_003.ogg");
+
+    sound_cache.load("gun_empty_001", "assets/gun_empty_001.ogg");
+    sound_cache.load("gun_empty_002", "assets/gun_empty_002.ogg");
+    sound_cache.load("gun_empty_003", "assets/gun_empty_003.ogg");
+
+    sound_cache.load("enemy_hit_001", "assets/enemy_hit.ogg");
+    sound_cache.load("enemy_hit_002", "assets/enemy_hit_002.ogg");
+    sound_cache.load("enemy_hit_003", "assets/enemy_hit_003.ogg");
+    sound_cache.load("enemy_hit_004", "assets/enemy_hit_004.ogg");
+    sound_cache.load("enemy_hit_005", "assets/enemy_hit_005.ogg");
+
+    m_background_music = LoadMusicStream("assets/background_music.ogg");
+}
